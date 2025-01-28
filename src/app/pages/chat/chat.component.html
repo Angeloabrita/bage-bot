@@ -1,0 +1,18 @@
+<div class="chat-container">
+  <div class="chat-messages">
+    <div *ngFor="let message of messages" class="message" [class.user]="message.author === 'user'" [class.gemini]="message.author === 'gemini'">
+      {{ message.text }}
+    </div>
+    <div *ngIf="loading" class="message gemini">
+      <mat-progress-spinner diameter="24"></mat-progress-spinner>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <mat-form-field appearance="fill">
+      <mat-label>Escreva sua mensagem</mat-label>
+      <input matInput [formControl]="messageControl" (keydown.enter)="sendMessage()" />
+    </mat-form-field>
+    <button mat-raised-button (click)="sendMessage()">Enviar</button>
+  </div>
+</div>
