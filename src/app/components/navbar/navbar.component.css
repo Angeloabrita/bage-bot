@@ -1,0 +1,18 @@
+.spacer {
+  flex: 1 1 auto;
+}
+a {
+  text-decoration: none; 
+  color: white;          
+  margin-left: 10px;  
+}
+
+a.mat-button:hover, a.mat-button:focus {
+  text-decoration: none !important;
+  outline: none; 
+}
+
+mat-toolbar {
+  background-color: #b1ec63;
+}
+
