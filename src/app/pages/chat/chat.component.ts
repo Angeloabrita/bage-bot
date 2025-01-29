@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-chat',
@@ -16,6 +17,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatInputModule,
     MatButtonModule,
     MatProgressSpinnerModule
+     
   ],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
@@ -39,6 +41,8 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.messages.push({ text: messageText, author: 'user' });
 
       this.loading = true;
+      console.log("Loading: true"); // Adicione este log
+
       this.geminiMessageSub = this.geminiService.generateContent(messageText, this.messages)
        .subscribe({
           next: (result: any) => {
@@ -47,6 +51,15 @@ export class ChatComponent implements OnInit, OnDestroy {
             this.loading = false;
           },
           error: (err) => {
+
+            const rand_error_msg = ["Vish! Não estou conseguindo me conectar com meu cérebro. Vou mandar o pangaré que me criou resolver isso.",
+              "Bha Guri! Deu ruim aqui. Vou chamar o Bagé para resolver isso.",
+              "Deu merda aqui, aposto que a culpa é do Bagé.",
+              "Parece que o Bagé fez cagada de novo. A API não está respondendo.",
+            ]
+
+            const rand = Math.floor(Math.random() * rand_error_msg.length);
+            this.messages.push({ text: rand_error_msg[rand], author: 'gemini' });
             console.error("Erro no serviço Gemini:", err);
             this.loading = false;
           }

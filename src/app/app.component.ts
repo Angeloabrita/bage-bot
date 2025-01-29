@@ -7,7 +7,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
   standalone: true,
   imports: [ 
     ChatComponent,
-    NavbarComponent
+    NavbarComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
