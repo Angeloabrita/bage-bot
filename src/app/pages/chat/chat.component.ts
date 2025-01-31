@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MarkdownPipe } from 'ngx-markdown';
 
 @Component({
   selector: 'app-chat',
@@ -16,8 +17,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CommonModule,
     MatInputModule,
     MatButtonModule,
-    MatProgressSpinnerModule
-     
+    MatProgressSpinnerModule,
+    MarkdownPipe
+
   ],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
@@ -36,18 +38,19 @@ export class ChatComponent implements OnInit, OnDestroy {
   sendMessage(): void {
     const messageText = this.messageControl.value?.trim();
 
-    console.log("Component: Enviando mensagem para o servico Gemini")
     if (messageText) {
       this.messages.push({ text: messageText, author: 'user' });
-
       this.loading = true;
-      console.log("Loading: true"); // Adicione este log
 
       this.geminiMessageSub = this.geminiService.generateContent(messageText, this.messages)
-       .subscribe({
-          next: (result: any) => {
-            console.log("Resposta do Gemini Service:", result);
-            this.messages.push({ text: result.text, author: 'gemini' });
+        .subscribe({
+          next: async (result: any) => { // Adicione async aqui se necessário
+            // Garanta que result.text é uma string
+            const geminiText = typeof result.text === 'string'
+              ? result.text
+              : await result.text; // Se for uma Promise, resolva-a
+
+            this.messages.push({ text: geminiText, author: 'gemini' });
             this.loading = false;
           },
           error: (err) => {

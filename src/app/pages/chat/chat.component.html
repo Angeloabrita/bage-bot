@@ -1,7 +1,7 @@
 <div class="chat-container">
   <div class="chat-messages">
     <div *ngFor="let message of messages" class="message" [class.user]="message.author === 'user'" [class.gemini]="message.author === 'gemini'">
-      {{ message.text }}
+      <div [innerHTML]="(message.text | markdown | async)"></div>
     </div>
     <div *ngIf="loading" class="message gemini">
       <mat-spinner diameter="24"></mat-spinner>
